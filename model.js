@@ -1,600 +1,130 @@
 'use strict';
-const KEY='xiangye-career-v3';
+const KEY='xiangye-career-sample-v4';
+const VERSION=4;
 const styleNames={L:'分析论证',P:'实践验证',K:'创意探索',H:'协同沟通',O:'组织推进',N:'规范落实'};
 const interestNames={R:'实作',I:'研究',A:'艺术',S:'助人',E:'经营',C:'事务'};
-// Every style appears in 12 options; every interest appears in 8 options.
-// Stable choice IDs preserve scoring when display positions are shuffled.
-const workItems=[
- [
-  "群相册有上千张照片，找一张像大海捞针。你想怎么救？",
-  [
-   "L",
-   "看看大家都搜什么，找出难找的原因"
-  ],
-  [
-   "P",
-   "拿一个相册试着重整，看好不好找"
-  ],
-  [
-   "K",
-   "做一张能直达各个主题的照片地图"
+const questions=[
+ {
+  "id": 1,
+  "part": 0,
+  "context": "给朋友做生日视频，要找去年露营时他穿黄色外套、站在帐篷旁的照片。手机里有几千张照片。",
+  "text": "你会用哪种办法找？",
+  "options": [
+   {
+    "key": "L",
+    "text": "按露营的月份找，再看那几天的照片"
+   },
+   {
+    "key": "P",
+    "text": "打开照片缩略图，一排排找黄色外套"
+   },
+   {
+    "key": "H",
+    "text": "在朋友群里描述画面，请大家帮忙找"
+   }
   ]
- ],
- [
-  "朋友合开周末小摊，两个菜单争不下。你会怎么拍板？",
-  [
-   "L",
-   "比一比成本和受欢迎程度"
-  ],
-  [
-   "P",
-   "两种各做一点，试卖后决定"
-  ],
-  [
-   "H",
-   "让一起摆摊的人投票决定"
+ },
+ {
+  "id": 2,
+  "part": 0,
+  "context": "周六要给朋友过生日，餐厅和蛋糕都订好了。下面三件事各缺一个人负责。",
+  "text": "你最想接哪一件？",
+  "options": [
+   {
+    "key": "K",
+    "text": "用朋友的照片做一段搞笑开场视频"
+   },
+   {
+    "key": "O",
+    "text": "通知大家几点到、谁拿蛋糕、谁布置"
+   },
+   {
+    "key": "N",
+    "text": "核对蛋糕上的名字、到店时间和人数"
+   }
   ]
- ],
- [
-  "朋友做了个小游戏，想请你帮忙升级。你想接哪一关？",
-  [
-   "L",
-   "看看玩家在哪些地方容易卡住"
-  ],
-  [
-   "P",
-   "改一个小关卡，找人试玩"
-  ],
-  [
-   "O",
-   "约好分工和进度，带着大家往前做"
+ },
+ {
+  "id": 3,
+  "part": 0,
+  "context": "你和朋友周末摆摊卖柠檬茶。有人想少放糖，有人想多放糖，今天只能做一种甜度。",
+  "text": "你更愿意怎么定下来？",
+  "options": [
+   {
+    "key": "L",
+    "text": "看上次两种甜度各卖了多少，选卖得多的"
+   },
+   {
+    "key": "P",
+    "text": "各做一小杯，请路人试喝，选更受欢迎的"
+   },
+   {
+    "key": "H",
+    "text": "让一起摆摊的朋友投票，按多数人的选"
+   }
   ]
- ],
- [
-  "烤饼干又翻车了。同一种错，你想怎么避免？",
-  [
-   "L",
-   "对比几次的配方和温度，找原因"
-  ],
-  [
-   "P",
-   "试试定时器或温度计，看有没有用"
-  ],
-  [
-   "N",
-   "做一张烘焙检查卡，每次照着核对"
+ },
+ {
+  "id": 4,
+  "part": 1,
+  "context": "社区周末有场旧物交换活动，下面三个岗位都有人带你做，每个都只需要一小时。",
+  "text": "你更想试哪一个？",
+  "options": [
+   {
+    "key": "I",
+    "text": "数一数各摊位的成交量，看哪类旧物最受欢迎"
+   },
+   {
+    "key": "A",
+    "text": "用现成的图片和文字，设计一张活动海报"
+   },
+   {
+    "key": "S",
+    "text": "教不会用手机的老人拍照、发出交换信息"
+   }
   ]
- ],
- [
-  "轮到你安利一部好剧，你更想怎么演这场？",
-  [
-   "L",
-   "用剧情和细节讲清楚它好在哪里"
-  ],
-  [
-   "K",
-   "做个有梗的小短片，勾起大家兴趣"
-  ],
-  [
-   "H",
-   "开个聊天局，让大家一起聊看点"
+ },
+ {
+  "id": 5,
+  "part": 1,
+  "context": "楼下准备办一次旧书交换。下面三件事都有人指导，也都需要一小时左右。",
+  "text": "你愿意认领哪一件？",
+  "options": [
+   {
+    "key": "R",
+    "text": "用螺丝刀把木板装成放书的小架子"
+   },
+   {
+    "key": "E",
+    "text": "向附近店主介绍活动，争取借来桌子"
+   },
+   {
+    "key": "C",
+    "text": "对照登记表，核对书名、数量和捐书人"
+   }
   ]
- ],
- [
-  "周末市集要开张了，你想认领哪份差事？",
-  [
-   "L",
-   "看看来逛的人喜欢什么，帮忙选品"
-  ],
-  [
-   "K",
-   "想一个让人忍不住停下来的摊位点子"
-  ],
-  [
-   "O",
-   "安排出摊时间、物料和人员"
+ },
+ {
+  "id": 6,
+  "part": 1,
+  "context": "朋友想整理刚结束的旅行，照片、花费记录都发给你了。每项任务都能在一小时内完成。",
+  "text": "你更想帮哪个忙？",
+  "options": [
+   {
+    "key": "I",
+    "text": "比较每天的花费，找出哪一天超支最多"
+   },
+   {
+    "key": "A",
+    "text": "选照片、配音乐，剪一段一分钟旅行视频"
+   },
+   {
+    "key": "S",
+    "text": "教不会做相册的朋友，把照片放进电子相册"
+   }
   ]
- ],
- [
-  "你做的小物件要出一张介绍卡，你想负责哪块？",
-  [
-   "L",
-   "用实际用途说明它值得入手的地方"
-  ],
-  [
-   "K",
-   "给它配个故事，画一张有趣的小卡"
-  ],
-  [
-   "N",
-   "核对尺寸、价格和使用说明"
-  ]
- ],
- [
-  "你们想录一期播客，三个话题只能挑一个。你倾向怎么选？",
-  [
-   "L",
-   "比较准备难度和听众可能的兴趣"
-  ],
-  [
-   "H",
-   "大家聊透各自想法，选出共同心头好"
-  ],
-  [
-   "O",
-   "选这周能按时录完的话题，排好任务"
-  ]
- ],
- [
-  "社团的热门体验课名额不够，你觉得怎么分更合适？",
-  [
-   "L",
-   "按事先公开的报名评分规则分"
-  ],
-  [
-   "H",
-   "让报名的人商量，形成共同方案"
-  ],
-  [
-   "N",
-   "按已经约定的轮换顺序分"
-  ]
- ],
- [
-  "朋友聚餐总是晚开饭，你想当哪种“开饭救星”？",
-  [
-   "L",
-   "看看每次到底卡在哪个环节"
-  ],
-  [
-   "O",
-   "安排买菜、备菜和开火的时间"
-  ],
-  [
-   "N",
-   "做好食材与工具清单，避免临时缺东西"
-  ]
- ],
- [
-  "朋友做的小程序被吐槽难用，你想怎么帮忙？",
-  [
-   "P",
-   "动手改一处，让大家马上试试"
-  ],
-  [
-   "K",
-   "想一种跟现在完全不同的用法"
-  ],
-  [
-   "H",
-   "拉使用者聊一场，一起定怎么改"
-  ]
- ],
- [
-  "你们要办一个迷你作品展，你最想认领什么？",
-  [
-   "P",
-   "搭出能玩的演示，看看效果"
-  ],
-  [
-   "K",
-   "设计展览的画面和故事"
-  ],
-  [
-   "O",
-   "排好布展分工和当天流程"
-  ]
- ],
- [
-  "长辈想学手机新功能，你更想准备哪种“秘籍”？",
-  [
-   "P",
-   "一个边操作边练的小任务"
-  ],
-  [
-   "K",
-   "一套带小故事的漫画教程"
-  ],
-  [
-   "N",
-   "一张每步都写清楚的操作卡"
-  ]
- ],
- [
-  "朋友们要一起做一桌菜，你更喜欢哪种合作方式？",
-  [
-   "P",
-   "先试做一小份，照效果调整做法"
-  ],
-  [
-   "H",
-   "大家商量口味，一起定下做法"
-  ],
-  [
-   "O",
-   "分好买菜、备菜和掌勺，按时开饭"
-  ]
- ],
- [
-  "桌游玩到一半，规则突然吵成两派。你想怎么定？",
-  [
-   "P",
-   "两种玩法各试一轮，看实际差别"
-  ],
-  [
-   "H",
-   "让在场的人商量，定一个都接受的玩法"
-  ],
-  [
-   "N",
-   "翻出规则书，照上面的说明玩"
-  ]
- ],
- [
-  "合租厨房一到饭点就堵车，你想怎么解这个局？",
-  [
-   "P",
-   "试加一个备菜台，看会不会顺畅"
-  ],
-  [
-   "O",
-   "安排使用时段，错开忙碌时间"
-  ],
-  [
-   "N",
-   "统一收纳标签和归位规则，减少乱找"
-  ]
- ],
- [
-  "社区要办旧物交换日，你想领哪张任务卡？",
-  [
-   "K",
-   "设计一个让人想来逛的主题"
-  ],
-  [
-   "H",
-   "联系邻居，聊聊大家想交换什么"
-  ],
-  [
-   "O",
-   "协调场地、摊位和活动时间"
-  ]
- ],
- [
-  "你们的旅行攻略要成册了，你想负责什么？",
-  [
-   "K",
-   "做成一张好逛又好看的旅行地图"
-  ],
-  [
-   "H",
-   "收集同行伙伴的心愿，协调路线"
-  ],
-  [
-   "N",
-   "核对营业时间、地址和预约信息"
-  ]
- ],
- [
-  "给朋友准备生日惊喜，你想成为哪位幕后队友？",
-  [
-   "K",
-   "想一个出其不意的惊喜环节"
-  ],
-  [
-   "O",
-   "安排大家到场，把节奏串起来"
-  ],
-  [
-   "N",
-   "核对预订、物品和人数，守住细节"
-  ]
- ],
- [
-  "一群朋友准备拍短片，你最想负责哪块？",
-  [
-   "H",
-   "协调大家的想法，让合作更顺畅"
-  ],
-  [
-   "O",
-   "安排拍摄时间和人员分工"
-  ],
-  [
-   "N",
-   "检查镜头、道具和素材有没有遗漏"
-  ]
- ],
- [
-  "你们打算组团学个新技能，怎么选学习方法？",
-  [
-   "L",
-   "比较几种方法的依据和适用情况"
-  ],
-  [
-   "P",
-   "每种都体验一下，按实际感受选"
-  ],
-  [
-   "H",
-   "大家交换需求，商量一个共同方案"
-  ]
- ],
- [
-  "自制饮品小摊明天开张，你想认领什么？",
-  [
-   "K",
-   "给饮品起名字，设计菜单和招牌"
-  ],
-  [
-   "O",
-   "协调备料、出摊和轮班"
-  ],
-  [
-   "N",
-   "核对物料、价格和卫生要求"
-  ]
- ],
- [
-  "想把闲置角落变成共享书架，你会怎么争取支持？",
-  [
-   "L",
-   "整理需求和预算，讲清楚为什么值得做"
-  ],
-  [
-   "K",
-   "画出改造后的样子，让大家看见可能"
-  ],
-  [
-   "O",
-   "定好行动计划，召集愿意参与的人"
-  ]
- ],
- [
-  "大家轮流照顾的绿植总出状况，你想用哪种办法？",
-  [
-   "P",
-   "试一试不同花盆或浇水工具"
-  ],
-  [
-   "H",
-   "开个养护交流局，商量怎么配合"
-  ],
-  [
-   "N",
-   "做好养护检查表，照规则定期核对"
-  ]
- ]
+ }
 ];
-const activityItems=[
- [
-  [
-   "R",
-   "搭一套活动装置，让现场能玩起来"
-  ],
-  [
-   "I",
-   "研究来访记录，发现大家的逛展规律"
-  ],
-  [
-   "E",
-   "向摊主介绍活动，争取他们加入"
-  ]
- ],
- [
-  [
-   "R",
-   "照着图纸拼一个小装置"
-  ],
-  [
-   "I",
-   "做个小实验，解释一个奇妙现象"
-  ],
-  [
-   "C",
-   "整理展品，给它们建立分类目录"
-  ]
- ],
- [
-  [
-   "R",
-   "修好一盏不亮的小台灯"
-  ],
-  [
-   "A",
-   "给社区活动画一张海报"
-  ],
-  [
-   "S",
-   "教邻居用手机拍出喜欢的照片"
-  ]
- ],
- [
-  [
-   "R",
-   "动手做一个木质手机支架"
-  ],
-  [
-   "A",
-   "为小店写一段有趣的短视频脚本"
-  ],
-  [
-   "E",
-   "给客人介绍新品，争取一笔订单"
-  ]
- ],
- [
-  [
-   "R",
-   "操作工具做一件桌面小摆件"
-  ],
-  [
-   "A",
-   "设计一套有主题的贴纸"
-  ],
-  [
-   "C",
-   "核对订单清单，找出漏项"
-  ]
- ],
- [
-  [
-   "R",
-   "搭一个能运转的小机关"
-  ],
-  [
-   "S",
-   "陪社区长者学一个手机新功能"
-  ],
-  [
-   "E",
-   "为活动找到愿意提供物料的商家"
-  ]
- ],
- [
-  [
-   "R",
-   "把卡住的工具调到顺畅运行"
-  ],
-  [
-   "S",
-   "陪一个人攻克总学不会的小技能"
-  ],
-  [
-   "C",
-   "整理活动记录，让大家一找就有"
-  ]
- ],
- [
-  [
-   "R",
-   "改造一个不顺手的收纳架"
-  ],
-  [
-   "E",
-   "为共享书架找到合作店铺"
-  ],
-  [
-   "C",
-   "按清单检查新到的物料"
-  ]
- ],
- [
-  [
-   "I",
-   "查资料，追一追冷知识背后的真相"
-  ],
-  [
-   "A",
-   "把冷知识做成有趣的图文"
-  ],
-  [
-   "S",
-   "听朋友聊困扰，帮他理清需要"
-  ]
- ],
- [
-  [
-   "I",
-   "设计一个实验，看看猜想对不对"
-  ],
-  [
-   "A",
-   "给一段视频做配乐或音效"
-  ],
-  [
-   "E",
-   "介绍一个点子，争取合作机会"
-  ]
- ],
- [
-  [
-   "I",
-   "分析数据，找出作品突然走红的原因"
-  ],
-  [
-   "A",
-   "拍一段有故事感的小短片"
-  ],
-  [
-   "C",
-   "把照片和文件分好类，随时能找到"
-  ]
- ],
- [
-  [
-   "I",
-   "调研一个大家好奇的话题"
-  ],
-  [
-   "S",
-   "给初学者讲清一个难懂的知识点"
-  ],
-  [
-   "E",
-   "把一个好项目介绍给可能支持的人"
-  ]
- ],
- [
-  [
-   "I",
-   "比较几种学习方法的实际结果"
-  ],
-  [
-   "S",
-   "在社区服务活动中帮一个人解决困难"
-  ],
-  [
-   "C",
-   "核对收支，找出一笔对不上的账"
-  ]
- ],
- [
-  [
-   "I",
-   "观察数据，找出藏在里面的规律"
-  ],
-  [
-   "E",
-   "为一个小项目谈成资源合作"
-  ],
-  [
-   "C",
-   "维护任务清单，确认每件事的进展"
-  ]
- ],
- [
-  [
-   "A",
-   "为一场展示设计故事和画面"
-  ],
-  [
-   "S",
-   "带新人完成第一次小任务"
-  ],
-  [
-   "E",
-   "为新品策划一次推广活动"
-  ]
- ],
- [
-  [
-   "A",
-   "设计一套有个人风格的图文"
-  ],
-  [
-   "S",
-   "耐心陪一个人练会新技能"
-  ],
-  [
-   "C",
-   "检查作品集的资料与格式"
-  ]
- ]
-];
-const activityPrompts=["城市活动招募帮手，你想去哪个岗位？", "体验课可以免费选一门，你会报名哪个？", "邻里互助日，你想领哪份任务？", "朋友的小店缺个帮手，你想做什么？", "周末开放工作室，哪件事更吸引你？", "一场小活动在招募队友，你想负责什么？", "今天可以当半日搭档，你想帮哪种忙？", "共享空间准备升级，你最想参与什么？", "留一段时间给自己，你更想做什么？", "三个小挑战摆在面前，你想接哪个？", "给你一个下午，你更愿意忙哪件事？", "三个小组都缺一位队友，你更想加入哪个？", "社区体验日，你想试哪份工作？", "给一个小项目搭把手，你会挑什么？", "工作交换体验卡，你想选哪张？", "这一周能认领一个小任务，你想做什么？"];
-const questions=[...workItems.map(([text,...options],i)=>({id:i+1,part:0,text,options:options.map(([key,text])=>({key,text}))})),...activityItems.map((options,i)=>({id:i+25,part:1,text:activityPrompts[i],options:options.map(([key,text])=>({key,text}))}))];
-const baseStrengths={L:'用清晰的依据比较方案，让判断与取舍更有条理',P:'通过小范围尝试获取反馈，让想法得到实际检验',K:'提出不同角度和表达方式，为问题增加新的可能',H:'汇集相关人的意见，帮助成员形成共同理解',O:'明确任务、人员和时间，让协作持续向前推进',N:'核对要求与细节，让交付保持一致和可追溯'};
 const groups=[
 {id:'research',name:'研究分析',w:{I:.8,C:.2},roles:['数据分析师','行业研究员','科研助理'],color:'#e5ebdf',order:['L','N','K','P','H','O'],context:'整理资料、形成假设和比较证据',task:'选一个感兴趣的问题，收集资料，写一页包含问题、证据和结论的分析报告。'},
 {id:'engineering',name:'技术研发',w:{I:.6,R:.4},roles:['软件工程师','硬件研发工程师','自动化工程师'],color:'#e1eaf0',order:['P','L','K','N','O','H'],context:'理解需求、比较技术方案和设计验证步骤',task:'选择一个小需求，用熟悉的工具制作原型，并记录一次测试和改进过程。'},
@@ -606,27 +136,21 @@ const groups=[
 {id:'compliance',name:'规范审查',w:{C:.8,I:.2},roles:['会计','审计助理','合规专员','质量检验员'],color:'#e7e9ef',order:['N','L','O','P','H','K'],context:'核对材料、执行规则和记录判断依据',task:'用明确的检查清单核对资料或账目，记录发现的问题及核验依据。'},
 {id:'practical',name:'实务技术',w:{R:.8,I:.2},roles:['设备维修技师','现场实施工程师','实验技术员'],color:'#eee7da',order:['P','N','L','O','K','H'],context:'理解操作要求、安排实施步骤和处理现场反馈',task:'在指导和安全条件下完成一次简单装配或工具操作，记录步骤与遇到的问题。'}
 ];
+
+const TOTAL=questions.length;
+const PART_SIZE=3;
+const exposures=Object.fromEntries([0,1].map(part=>[part,Object.fromEntries(Object.keys(part===0?styleNames:interestNames).map(key=>[key,questions.filter(q=>q.part===part).flatMap(q=>q.options).filter(o=>o.key===key).length]))]));
 function score(answers){
  const styleCounts=Object.fromEntries(Object.keys(styleNames).map(k=>[k,0]));
  const interestCounts=Object.fromEntries(Object.keys(interestNames).map(k=>[k,0]));
- for(const q of questions){const a=answers[q.id];if(Number.isInteger(a)&&a>=0&&a<3){const key=q.options[a].key;(q.part===0?styleCounts:interestCounts)[key]++}}
- const styles=Object.fromEntries(Object.entries(styleCounts).map(([k,n])=>[k,n/12*100]));
- const interests=Object.fromEntries(Object.entries(interestCounts).map(([k,n])=>[k,n/8*100]));
+ for(const q of questions){const a=answers[q.id];if(Number.isInteger(a)&&a>=0&&a<3)(q.part===0?styleCounts:interestCounts)[q.options[a].key]++}
+ const styles=Object.fromEntries(Object.entries(styleCounts).map(([k,n])=>[k,exposures[0][k]?n/exposures[0][k]*100:0]));
+ const interests=Object.fromEntries(Object.entries(interestCounts).map(([k,n])=>[k,exposures[1][k]?n/exposures[1][k]*100:0]));
  const careers=groups.map(g=>({...g,score:Object.entries(g.w).reduce((sum,[k,w])=>sum+interests[k]*w,0)})).sort((a,b)=>b.score-a.score);
  return{styles,interests,styleCounts,interestCounts,careers};
 }
-function leadingStyles(styles){const max=Math.max(...Object.values(styles));return Object.keys(styleNames).filter(k=>styles[k]>=max-1e-8)}
 function shuffle(items){const a=[...items];for(let i=a.length-1;i>0;i--){const n=new Uint32Array(1);crypto.getRandomValues(n);const j=Math.floor(n[0]/4294967296*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-// New wording uses a separate saved session so old answers are never mixed with new scenes.
-function fresh(){return{version:3,answers:{},order:[...Array.from({length:24},(_,i)=>i+1),...shuffle(Array.from({length:16},(_,i)=>i+25))],optionOrder:Object.fromEntries(questions.map(q=>[q.id,shuffle([0,1,2])])),index:0,complete:false,seen:[]}}
-function valid(s){return !!(s&&s.version===3&&s.answers&&typeof s.answers==='object'&&!Array.isArray(s.answers)&&Array.isArray(s.order)&&s.order.length===40&&new Set(s.order).size===40&&s.order.every((q,i)=>Number.isInteger(q)&&q>=1&&q<=40&&(i>=24?q>=25:q===i+1))&&s.optionOrder&&questions.every(q=>Array.isArray(s.optionOrder[q.id])&&s.optionOrder[q.id].length===3&&[...s.optionOrder[q.id]].sort().join(',')==='0,1,2')&&Number.isInteger(s.index)&&s.index>=0&&s.index<40&&typeof s.complete==='boolean'&&Array.isArray(s.seen)&&s.seen.every(t=>t===0||t===1)&&Object.entries(s.answers).every(([k,v])=>String(+k)===k&&+k>=1&&+k<=40&&Number.isInteger(v)&&v>=0&&v<3)&&(!s.complete||questions.every(q=>Number.isInteger(s.answers[q.id]))));}
-
-// Interest drives the shortlist. Work-style affinity only orders exact ties.
-function topDirections(result){
- return [...result.careers].sort((a,b)=>{
-  if(Math.abs(b.score-a.score)>1e-8)return b.score-a.score;
-  const affinity=g=>result.styles[g.order[0]]*.6+result.styles[g.order[1]]*.4;
-  return affinity(b)-affinity(a)||groups.findIndex(g=>g.id===a.id)-groups.findIndex(g=>g.id===b.id);
- }).slice(0,3);
-}
-const styleLabels={L:'爱找线索',P:'动手试试',K:'点子不断',H:'一起商量',O:'安排起来',N:'留意细节'};
+function fresh(){return{version:VERSION,answers:{},order:[1,2,3,...shuffle([4,5,6])],optionOrder:Object.fromEntries(questions.map(q=>[q.id,shuffle([0,1,2])])),index:0,complete:false,seen:[]}}
+function valid(s){return !!(s&&s.version===VERSION&&s.answers&&typeof s.answers==='object'&&!Array.isArray(s.answers)&&Array.isArray(s.order)&&s.order.length===TOTAL&&new Set(s.order).size===TOTAL&&s.order.every((q,i)=>Number.isInteger(q)&&q>=1&&q<=TOTAL&&(i>=PART_SIZE?q>PART_SIZE:q===i+1))&&s.optionOrder&&questions.every(q=>Array.isArray(s.optionOrder[q.id])&&s.optionOrder[q.id].length===3&&[...s.optionOrder[q.id]].sort().join(',')==='0,1,2')&&Number.isInteger(s.index)&&s.index>=0&&s.index<TOTAL&&typeof s.complete==='boolean'&&Array.isArray(s.seen)&&s.seen.every(t=>t===0||t===1)&&Object.entries(s.answers).every(([k,v])=>String(+k)===k&&+k>=1&&+k<=TOTAL&&Number.isInteger(v)&&v>=0&&v<3)&&(!s.complete||questions.every(q=>Number.isInteger(s.answers[q.id]))));}
+// Short sample: normalized exposure is used only for illustrative directions.
+function topDirections(result){return [...result.careers].sort((a,b)=>{if(Math.abs(b.score-a.score)>1e-8)return b.score-a.score;const affinity=g=>result.styles[g.order[0]]*.6+result.styles[g.order[1]]*.4;return affinity(b)-affinity(a)||groups.findIndex(g=>g.id===a.id)-groups.findIndex(g=>g.id===b.id)}).slice(0,3)}
